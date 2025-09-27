@@ -1,3 +1,2 @@
-12,Ram,2,Murder,420,Visakhapatnam
-13,Hitesh,16,Teledhu,786,djfhgktfehrgvuhj
-23,Roshini,100,putadam,420,Rajamundry
+ID,Name,Age,Gender,Crime,Section,Punishment,Severity,Status,DateOfCrime,JailName,PoliceStation,CrimeLocation,PreviousConvictions,BailAmount,Accomplices,Notes,Nationality,Height,Weight,EyeColor,HairColor,FingerprintID,PhotoFile,CreatedAt
+1,Ramesh Kumar,30,Male,Theft,420,3 years imprisonment,Medium,Jailed,2025-08-10,Tihar Jail,Central PS,Hyderabad,1,5000.0,Sueresh  Mahesh,Repeat offender,Indian,175.0,70.0,Brown,Black,FP123456,photo_ramesh.jpg,2025-09-27 22:29:55
