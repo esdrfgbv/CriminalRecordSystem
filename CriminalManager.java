@@ -11,33 +11,36 @@ public class CriminalManager {
         loadFromCSV();
     }
 
-    // Load all records from CSV
     public void loadFromCSV() {
         criminals.clear();
         File file = new File(csvFile);
         if (!file.exists()) {
-            System.out.println("⚠️ CSV file not found. Starting fresh.");
+            System.out.println("CSV file not found. Starting fresh.");
             return;
         }
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
+            boolean firstLine = true;
             while ((line = br.readLine()) != null) {
+                if (firstLine) { firstLine = false; continue; } // skip header
                 Criminal c = Criminal.fromCSV(line);
                 if (c != null) criminals.add(c);
-                else System.out.println("⚠️ Skipped malformed line: " + line);
             }
-            System.out.println("✅ Loaded " + criminals.size() + " records from CSV.");
+            System.out.println("Loaded " + criminals.size() + " records.");
         } catch (IOException e) {
             System.out.println("Error reading CSV: " + e.getMessage());
         }
     }
 
-    // Save all records to CSV
     public void saveToCSV() {
         File file = new File(csvFile);
         File parent = file.getParentFile();
         if (parent != null && !parent.exists()) parent.mkdirs();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+            // Write header
+            bw.write("ID,Name,Age,Gender,Crime,Section,Punishment,Severity,Status,DateOfCrime,JailName,PoliceStation,CrimeLocation,PreviousConvictions,BailAmount,Accomplices,Notes,Nationality,Height,Weight,EyeColor,HairColor,FingerprintID,PhotoFile,CreatedAt");
+            bw.newLine();
+            // Write data
             for (Criminal c : criminals) {
                 bw.write(c.toCSV());
                 bw.newLine();
@@ -48,7 +51,7 @@ public class CriminalManager {
     }
 
     public boolean addRecord(Criminal c) {
-        if (findById(c.getId()) != null) return false; // duplicate
+        if (findById(c.getId()) != null) return false;
         criminals.add(c);
         saveToCSV();
         return true;
@@ -72,15 +75,15 @@ public class CriminalManager {
             System.out.println("No records to show.");
             return;
         }
-        System.out.println("---- All Records ----");
+        System.out.println("---- All Criminal Records ----");
         for (Criminal c : criminals) System.out.println(c);
     }
 
     public List<Criminal> searchByCrime(String keyword) {
         List<Criminal> res = new ArrayList<>();
-        for (Criminal c : criminals) {
-            if (c.getCrime().toLowerCase().contains(keyword.toLowerCase())) res.add(c);
-        }
+        for (Criminal c : criminals)
+            if (c.getCrime().toLowerCase().contains(keyword.toLowerCase()))
+                res.add(c);
         return res;
     }
 }
